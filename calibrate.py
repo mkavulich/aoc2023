@@ -18,6 +18,26 @@ def read_as_list(filename):
 
     return l
 
+def digitmatch(string):
+    """Function that takes a string and outputs a list of all "digits" in that string.
+
+    For the purpose of this function, a digit is either a numerical character:
+    0 1 2 3 4 5 6 7 8 9
+
+    Or the name of a single-digit number:
+
+    zero one two three four five six seven eight nine
+"""
+
+    digits = []
+
+    for i, v in enumerate(string):
+        if v.isdigit():
+            print(v)
+            digits.append(v)
+
+    return digits
+
 
 def calibrate(lines):
     """Function that takes a list of strings and returns a list of calibration values
@@ -29,15 +49,11 @@ def calibrate(lines):
     If a line contains no digits, the assigned value is "None"
 """
     # Regular expression to see if string contains any digits
-    RE_D = re.compile('\d')
     newlist = []
     for line in lines:
-        digitmatch = RE_D.findall(line)
-        print(line)
-        print(digitmatch)
-        if digitmatch:
-            print(f'calval1 = {digitmatch[0]}, claval2 = {digitmatch[-1]}')
-            calval = digitmatch[0] + digitmatch[-1]
+        dm = digitmatch(line)
+        if dm:
+            calval = dm[0] + dm[-1]
             newlist.append(int(calval))
         else:
             newlist.append(None)
