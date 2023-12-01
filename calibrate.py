@@ -31,10 +31,32 @@ def digitmatch(string):
 
     digits = []
 
-    for i, v in enumerate(string):
+    #Pad string with spaces to avoid complications when matching "string numbers" later
+    string = string + "     "
+
+    for i, v in enumerate(string[0:-5]):
         if v.isdigit():
-            print(v)
             digits.append(v)
+        elif string[i:i+3] == 'one':
+            digits.append(1)
+        elif string[i:i+3] == 'two':
+            digits.append(2)
+        elif string[i:i+5] == 'three':
+            digits.append(3)
+        elif string[i:i+4] == 'four':
+            digits.append(4)
+        elif string[i:i+4] == 'five':
+            digits.append(5)
+        elif string[i:i+3] == 'six':
+            digits.append(6)
+        elif string[i:i+5] == 'seven':
+            digits.append(7)
+        elif string[i:i+5] == 'eight':
+            digits.append(8)
+        elif string[i:i+4] == 'nine':
+            digits.append(9)
+        elif string[i:i+4] == 'zero':
+            digits.append(0)
 
     return digits
 
@@ -53,7 +75,7 @@ def calibrate(lines):
     for line in lines:
         dm = digitmatch(line)
         if dm:
-            calval = dm[0] + dm[-1]
+            calval = str(dm[0]) + str(dm[-1])
             newlist.append(int(calval))
         else:
             newlist.append(None)
