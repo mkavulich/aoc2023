@@ -1,6 +1,7 @@
 #! /usr/bin/python3
 import argparse
 import re
+import numpy as np
 
 def read_as_list(filename):
     """Function to read text document and return as a list of strings
@@ -89,6 +90,26 @@ def verify(gamelist,load):
 
     return True
 
+def find_min_set(gamelist):
+    """Given a game list, returns the minimum load possible for that game"""
+
+    minset = [0,0,0]
+
+    i=0
+    print(gamelist)
+    for game in gamelist:
+        if minset[0] < game[0]:
+            minset[0] = game[0]
+        if minset[1] < game[1]:
+            minset[1] = game[1]
+        if minset[2] < game[2]:
+            minset[2] = game[2]
+
+        i+=1
+
+
+    return minset
+
 def main():
     """Main function for Advent of code: day 2"""
 
@@ -103,23 +124,37 @@ def main():
     lines = read_as_list(pargs.filename)
 
     results = []
+    sumpower = 0
     for line in lines:
-        results.append(parse_results(line,pargs.verbose))
+        result = parse_results(line,pargs.verbose)
+        results.append(result)
+
+        minset = find_min_set(result)
+
+        power = np.prod(minset)
+        print(f"For {line}\n{minset=}\n{power=}")
+
+        sumpower += power
+
+
+    print(f"Sum of all powers: {sumpower}")
 
     # Now verify results
 
-    i=j=0
-    for result in results:
-        i+=1
-        if verify(result,pargs.load):
-            if pargs.verbose:
-                print(f"Game {i} was possible!")
-            j += i
-        else:
-            if pargs.verbose:
-                print(f"Game {i} was impossible!")
+#    i=j=0
+#    for result in results:
+#        i+=1
+#        if verify(result,pargs.load):
+#            if pargs.verbose:
+#                print(f"Game {i} was possible!")
+#            j += i
+#        else:
+#            if pargs.verbose:
+#                print(f"Game {i} was impossible!")
+#
+#    print(f"Sum of possible IDs is {j=}")
 
-    print(f"Sum of possible IDs is {j=}")
+
 
 if __name__ == "__main__":
     main()
